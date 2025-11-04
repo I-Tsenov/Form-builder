@@ -1,0 +1,38 @@
+@use "./_theme.scss" as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: $font-family-base;
+  font-size: $fs-base;
+  background-color: var(--bg-dark);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  background-color: var(--bg-light);
+  color: var(--text);
+  border: 1px solid transparent;
+  border-radius: var($border-radius-sm);
+  padding: var($pad-xs);
+  box-shadow: $shadow-md;
+
+  // &:invalid {
+  //   border: 1px solid var(--error);
+  // }
+  &:focus {
+    outline: none;
+    border: 1px solid var(--text);
+  }
+}

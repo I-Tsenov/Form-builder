@@ -1,0 +1,95 @@
+:root {
+  // --bg-dark: oklch(0.14 0.04 200);
+  // --bg: oklch(0.2 0.04 200);
+  // --bg-light: oklch(0.26 0.035 200);
+  // --text: oklch(94.684% 0.05171 206.948);
+  // --text-muted: oklch(0.74 0.06 230);
+  // --highlight: oklch(73.63% 0.11051 140.442);
+  // --border: oklch(0.46 0.05 200);
+  // --border-muted: oklch(0.36 0.03 200);
+  // --primary: oklch(0.5 0.1 190);
+  // --primary-hover: oklch(0.6 0.12 190);
+  // --secondary: oklch(0.5 0.1 140);
+  // --secondary-hover: oklch(0.6 0.1 140);
+  // --error: oklch(0.6 0.11 25);
+  // --warning: oklch(0.6 0.11 80);
+  // --success: oklch(0.6 0.11 150);
+  // --info: oklch(0.6 0.11 230);
+  --bg-dark: oklch(0.92 0.04 200);
+  --bg: oklch(0.96 0.04 200);
+  --bg-light: oklch(0.99 0.04 200);
+  --text: oklch(0.15 0.08 230);
+  --text-muted: oklch(0.42 0.05 230);
+  --highlight: oklch(85% 0.17 139.566);
+  --border: oklch(0.64 0.05 200);
+  --border-muted: oklch(0.72 0.04 200);
+  --primary: oklch(0.5 0.1 190);
+  --primary-hover: oklch(0.6 0.12 190);
+  --secondary: oklch(0.5 0.1 140);
+  --secondary-hover: oklch(0.52 0.12 140);
+  --error: oklch(0.6 0.11 25);
+  --warning: oklch(0.6 0.11 80);
+  --success: oklch(0.6 0.11 150);
+  --info: oklch(0.6 0.11 230);
+  //neutrals
+  --white: oklch(0.98 0.01 200);
+  --black: oklch(0.02 0.01 200);
+  --neutral-00: oklch(0.98 0.01 200);
+  --neutral-10: oklch(0.9 0.02 200);
+  --neutral-20: oklch(0.8 0.03 200);
+  --neutral-30: oklch(0.6 0.03 200);
+  --neutral-40: oklch(0.4 0.02 200);
+  --neutral-50: oklch(0.2 0.02 200);
+  --disabled: oklch(0.5 0.01 200);
+  //states
+  --danger-hover: oklch(0.66 0.06 25);
+  --warning-hover: oklch(0.66 0.06 80);
+  --success-hover: oklch(0.66 0.06 150);
+  --info-hover: oklch(0.66 0.06 230);
+  --active: oklch(0.52 0.08 180);
+  --focus: oklch(0.86 0.09 190);
+}
+
+// Base
+$border-radius-xs: 4px;
+$border-radius-sm: 6px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-oval: 18px;
+$border-radius-round: 50%;
+
+// Typography
+$font-family-base: "Segoe UI", sans-serif;
+$fs-base: 1rem;
+$fs-sm: 0.875rem;
+$fs-md: 1rem;
+$fs-lg: 1.25rem;
+$fs-xl: 1.5rem;
+$fs-h1: 2.8rem;
+$fs-h2: 2.4rem;
+$fs-h3: 2rem;
+$lh-base: 1.5; // line-height
+$fw-reg: 400;
+$fw-bold: 700;
+$letter-spacing-tight: -0.02em;
+$letter-spacing-wide: 0.04em;
+
+// Shadows/elevations
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
+
+// Spacing / padding / margins
+$pad-xs: 0.25rem; // 4px if root is 16px
+$pad-sm: 0.5rem; // 8px
+$pad-md: 1rem; // 16px
+$pad-lg: 1.5rem; // 24px
+$pad-xl: 2rem; // 32px
+
+// Breakpoints
+$breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);

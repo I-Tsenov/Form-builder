@@ -1,0 +1,13 @@
+@use "../../styles/design.scss" as *;
+
+.formInput {
+  width: 100%;
+}
+
+.formInput input[type="text"] {
+  min-width: 400px;
+  width: 100%;
+  font-size: $fs-base;
+  border-radius: $border-radius-xs;
+  padding: $pad-md;
+}

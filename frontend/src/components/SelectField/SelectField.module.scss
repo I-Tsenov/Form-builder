@@ -1,0 +1,19 @@
+@use "../../styles/design.scss" as *;
+
+.selectElement {
+  width: 100%;
+  min-width: 300px;
+  padding: $pad-md $pad-sm;
+  border: 1px solid transparent;
+  border-radius: $border-radius-sm;
+  background-color: var(--bg-light);
+  color: var(--text);
+  font-size: $fs-md;
+  font-weight: $fw-bold;
+  box-shadow: $shadow-md;
+
+  &:focus {
+    outline: none;
+    border-color: var(--text);
+  }
+}
