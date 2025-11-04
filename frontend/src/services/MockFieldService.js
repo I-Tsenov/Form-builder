@@ -29,7 +29,9 @@ const MockFieldService = {
     } catch (err) {
       console.error("Error posting field:", err);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   },
 };

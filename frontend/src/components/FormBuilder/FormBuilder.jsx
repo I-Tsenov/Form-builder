@@ -176,7 +176,7 @@ const FormBuilder = () => {
           <Button
             size="large"
             variant="primary"
-            isLoading={isLoading}
+            loading={isLoading}
             type="submit"
           >
             Save changes
