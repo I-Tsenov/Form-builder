@@ -20,10 +20,12 @@ const INITIAL_VALUES = {
 };
 
 const STORAGE_KEY = "formBuilderValues";
+const MAX_CHOICES = 50;
 
 const FormBuilder = () => {
-  let [values, setValues] = useLocalStorage(STORAGE_KEY, INITIAL_VALUES);
-  let [isLoading, setIsLoading] = useState(false);
+  const [values, setValues] = useLocalStorage(STORAGE_KEY, INITIAL_VALUES);
+  const [isLoading, setIsLoading] = useState(false);
+  const [choiceError, setChoiceError] = useState("");
 
   let buildElements = [
     {
@@ -71,6 +73,9 @@ const FormBuilder = () => {
         name: "choices",
         placeholder: "Type a choice and press Enter",
         type: "text",
+        MAX_CHOICES,
+        choiceError,
+        setChoiceError,
       },
     },
     {
@@ -106,31 +111,44 @@ const FormBuilder = () => {
   function onResetHandler(e) {
     e.preventDefault();
     setValues(INITIAL_VALUES);
+    setChoiceError("");
     localStorage.removeItem(STORAGE_KEY);
   }
 
   async function onSaveHandler(e) {
     e.preventDefault();
-    let safeValues = {
-      ...values,
-      label: sanitizeInput(values.label),
-      default: sanitizeInput(values.default),
-      choices: values.choices.map((choice) => sanitizeInput(choice)),
-    };
-    let payload = safeValues;
 
-    if (
-      safeValues.default !== "" &&
-      !safeValues.choices.includes(safeValues.default) &&
-      safeValues.choices.length < 50
-    ) {
-      const updatedChoices = [safeValues.default, ...safeValues.choices];
-      onChoicesHandler(updatedChoices);
-      payload = { ...safeValues, choices: updatedChoices };
+    let rawValues = { ...values };
+
+    const isChoicesFull = rawValues.choices.length >= MAX_CHOICES;
+    const isDefaultMissing =
+      rawValues.default !== "" &&
+      !rawValues.choices.includes(rawValues.default);
+
+    if (isDefaultMissing && isChoicesFull) {
+      setChoiceError(
+        "You can't add more than 50 choices, and the default value is not in the list."
+      );
+      return;
     }
 
-    await FieldService.saveField(payload, setIsLoading);
+    if (isDefaultMissing && !isChoicesFull) {
+      const updatedChoices = [rawValues.default, ...rawValues.choices];
+      onChoicesHandler(updatedChoices);
+      rawValues = { ...rawValues, choices: updatedChoices };
+    }
+
+    let sanitizedPayload = {
+      ...rawValues,
+      label: sanitizeInput(rawValues.label),
+      default: sanitizeInput(rawValues.default),
+      choices: rawValues.choices.map((choice) => sanitizeInput(choice)),
+    };
+
+    await FieldService.saveField(sanitizedPayload, setIsLoading);
   }
+
+  console.log("values", values);
 
   return (
     <div className={styles.wrapper}>
@@ -177,6 +195,7 @@ const FormBuilder = () => {
             size="large"
             variant="primary"
             loading={isLoading}
+            disabled={choiceError.length > 0}
             type="submit"
           >
             Save changes
