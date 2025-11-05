@@ -20,6 +20,6 @@ Validation:
 - All inputs sanitized 
 
 Setup and run:
-npm install
-:root/frontend : npm run dev
-:root/server : npm start
+- npm install
+- :root/frontend : npm run dev
+- :root/server : npm start
