@@ -5,11 +5,10 @@ Description:
 A dynamic builder component for managing fields with selectable choices and default values. 
 
 Features: 
-- 🧠 Automatic default injection if missing and space allows
-- 🚫 Prevents exceeding 50 choices
+- ✅ Responsive
+- ✅ Persist values in local storage
 - ✅ Sanitizes user input to strip HTML
-- 🔄 Updates state and payload before saving
-- 💾 Integrates with `FieldService.saveField` for persistence
+- ✅ Basic validation
 
 Validation:
 - Label field required
