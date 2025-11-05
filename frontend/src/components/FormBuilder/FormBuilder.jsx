@@ -62,6 +62,8 @@ const FormBuilder = () => {
         name: "default",
         placeholder: "Select Region",
         type: "text",
+        pattern: ".{0,40}",
+        title: "Maximum 40 characters allowed",
       },
     },
     {
@@ -73,6 +75,8 @@ const FormBuilder = () => {
         name: "choices",
         placeholder: "Type a choice and press Enter",
         type: "text",
+        pattern: ".{0,40}",
+        title: "Maximum 40 characters allowed",
         MAX_CHOICES,
         choiceError,
         setChoiceError,
@@ -147,8 +151,6 @@ const FormBuilder = () => {
 
     await FieldService.saveField(sanitizedPayload, setIsLoading);
   }
-
-  console.log("values", values);
 
   return (
     <div className={styles.wrapper}>

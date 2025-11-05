@@ -53,8 +53,6 @@ const FormChoicesField = ({
       <FormInput
         {...props}
         value={input}
-        pattern=".{0,40}"
-        title="Maximum 40 characters allowed"
         onChangeHandler={(e) => setInput(e.target.value)}
         onKeyDownHandler={(e) => handleKeyDown(e)}
       />

@@ -8,7 +8,6 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Endpoint to receive posted data
 app.post("/api/fields", (req, res) => {
   console.log("Received JSON:", req.body);
   res.json({ status: "ok", data: req.body });
