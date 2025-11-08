@@ -60,7 +60,7 @@ const FormBuilder = () => {
       handler: onInputHandler,
       extraProps: {
         name: "default",
-        placeholder: "Select Region",
+        placeholder: "Enter default",
         type: "text",
         pattern: ".{0,40}",
         title: "Maximum 40 characters allowed",
@@ -121,6 +121,7 @@ const FormBuilder = () => {
 
   async function onSaveHandler(e) {
     e.preventDefault();
+    setChoiceError("");
 
     let rawValues = { ...values };
 
@@ -131,7 +132,7 @@ const FormBuilder = () => {
 
     if (isDefaultMissing && isChoicesFull) {
       setChoiceError(
-        "You can't add more than 50 choices, and the default value is not in the list."
+        "You can't add more than 50 choices, default value included!"
       );
       return;
     }

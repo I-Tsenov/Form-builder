@@ -26,7 +26,7 @@ const FormChoicesField = ({
 
       if (choices.length >= MAX_CHOICES) {
         setChoiceError(
-          "You can't add more than 50 choices, default value is included."
+          "You can't add more than 50 choices, default value included!"
         );
         return;
       }
@@ -72,7 +72,11 @@ const FormChoicesField = ({
           ))}
         </ul>
       )}
-      {choiceError && <div className={styles.errorMessage}>{choiceError}</div>}
+      {choiceError && (
+        <div role="alert" className={styles.errorMessage}>
+          {choiceError}
+        </div>
+      )}
     </div>
   );
 };
