@@ -24,6 +24,12 @@ const FormChoicesField = ({
         return;
       }
 
+      if (input.length >= 40) {
+        setChoiceError(
+          "Choice exceeds the maximum length of 40 characters."
+        );
+        return;
+      }
       if (choices.length >= MAX_CHOICES) {
         setChoiceError(
           "You can't add more than 50 choices, default value included!"
