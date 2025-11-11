@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { beforeAll, vi } from "vitest";
+import { expect, vi } from "vitest";
 import FormBuilder from "./FormBuilder";
 
 vi.mock("../../services/MockFieldService", () => ({
@@ -9,12 +9,15 @@ vi.mock("../../services/MockFieldService", () => ({
 }));
 
 vi.mock("../../utils/sanitizeInput", () => ({
-  sanitizeInput: (val) => val.trim(),
+  sanitizeInput: (val) => val.trim(), // not original sanitization
 }));
 
 describe("FormBuilder", () => {
   beforeEach(() => {
     render(<FormBuilder />);
+    fireEvent.change(screen.getByPlaceholderText(/select region/i), {
+      target: { value: "My Label" },
+    }); //required field for submission
   });
 
   test("renders title and logo", () => {
@@ -24,7 +27,6 @@ describe("FormBuilder", () => {
 
   test("updates label input", () => {
     const input = screen.getByPlaceholderText(/select region/i);
-    fireEvent.change(input, { target: { value: "My Label" } });
     expect(input.value).toBe("My Label");
   });
 
@@ -44,7 +46,7 @@ describe("FormBuilder", () => {
     expect(input.value).toBe("Temp");
 
     fireEvent.click(screen.getByRole("button", { name: /reset/i }));
-    expect(input.value).toBe(""); // reset to INITIAL_VALUES
+    expect(input.value).toBe("");
   });
 
   test("save button calls FieldService.saveField with sanitized payload", async () => {
@@ -52,12 +54,9 @@ describe("FormBuilder", () => {
       "../../services/MockFieldService"
     );
 
-    const labelInput = screen.getByPlaceholderText(/select region/i);
-    fireEvent.change(labelInput, { target: { value: "  My Label  " } });
-
     fireEvent.click(screen.getByRole("button", { name: /save changes/i }));
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(FieldService.saveField).toHaveBeenCalledWith(
         expect.objectContaining({
           label: "My Label",
@@ -70,11 +69,12 @@ describe("FormBuilder", () => {
   test("shows error when default is missing and choices are already at max", async () => {
     const choicesInput = screen.getByPlaceholderText(/type a choice/i);
 
-    for (let i = 0; i <= 50; i++) {
+    for (let i = 0; i < 50; i++) {
       fireEvent.change(choicesInput, { target: { value: `Choice${i}` } });
       fireEvent.keyDown(choicesInput, { key: "Enter", code: "Enter" });
     }
 
+    //add one more through default field - error trigger (51st element)
     const defaultInput = screen.getByPlaceholderText(/enter default/i);
     fireEvent.change(defaultInput, { target: { value: "NotInChoices" } });
 
@@ -85,25 +85,24 @@ describe("FormBuilder", () => {
     expect(errorEl).toHaveTextContent(/50 choices/i);
   });
 
-  // test("auto-adds default to choices when missing and under max, without error", async () => {
-  //   const defaultInput = screen.getByPlaceholderText(/enter default/i);
-  //   const choicesInput = screen.getByPlaceholderText(/type a choice/i);
-    
-  //   fireEvent.change(defaultInput, { target: { value: "tokyo" } });
-  //   for (let i = 0; i < 2; i++) {
-  //     fireEvent.change(choicesInput, { target: { value: `Choice${i}` } });
-  //     fireEvent.keyDown(choicesInput, { key: "Enter", code: "Enter" });
-  //   }
-    
-  //   screen.debug(); // inspect DOM after save
-  //   fireEvent.click(screen.getByRole("button", { name: /save changes/i }));
+  test("auto-adds default to choices when missing and under max, without error", async () => {
+    const choicesInput = screen.getByPlaceholderText(/type a choice/i);
+    const defaultInput = screen.getByPlaceholderText(/enter default/i);
 
-  //   await waitFor(() => {
-  //     expect(screen.queryByRole("alert")).toBeNull();
-  //     const choiceTexts = screen
-  //       .getAllByRole("listitem")
-  //       .map((li) => li.querySelector("span").textContent);
-  //     expect(choiceTexts).toContain("tokyo");
-  //   });
-  // });
+    for (let i = 0; i < 3; i++) {
+      fireEvent.change(choicesInput, { target: { value: `Choice${i}` } });
+      fireEvent.keyDown(choicesInput, { key: "Enter", code: "Enter" });
+    }
+    fireEvent.change(defaultInput, { target: { value: "tokyo" } });
+
+    fireEvent.click(screen.getByRole("button", { name: /save changes/i }));
+
+    waitFor(() => {
+      expect(screen.queryByRole("alert")).toBeNull();
+      const choiceTexts = screen
+        .getAllByRole("listitem")
+        .map((li) => li.querySelector("span").textContent);
+      expect(choiceTexts).toContain("tokyo");
+    });
+  });
 });
